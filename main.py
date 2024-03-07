@@ -109,6 +109,48 @@ def delete_portfolio(portfolio_id: int):
 
 
 
+# Testimonials
+@app.post("/testimonials/")
+def create_testimonial(testimonial: Testimonial):
+    conn = sqlite3.connect('agency.db')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO testimonials (client_name, testimonial) VALUES (?, ?)",
+                   (testimonial.client_name, testimonial.testimonial))
+    conn.commit()
+    conn.close()
+    return testimonial
+
+
+@app.get("/testimonials/")
+def get_testimonials():
+    cursor.execute("SELECT * FROM testimonials")
+    testimonials = cursor.fetchall()
+    return testimonials
+
+@app.get("/testimonials/{testimonial_id}/")
+def get_testimonial(testimonial_id: int):
+    cursor.execute(f"SELECT * FROM testimonials WHERE id = {testimonial_id}")
+    testimonial = cursor.fetchone()
+    if testimonial:
+        return testimonial
+    raise HTTPException(status_code=404, detail="Testimonial not found")
+
+@app.put("/testimonials/{testimonial_id}/")
+def update_testimonial(testimonial_id: int, testimonial: Testimonial):
+    cursor.execute(f"UPDATE testimonials SET client_name = '{testimonial.client_name}', testimonial = '{testimonial.testimonial}' WHERE id = {testimonial_id}")
+    conn.commit()
+    return testimonial
+
+@app.delete("/testimonials/{testimonial_id}/")
+def delete_testimonial(testimonial_id: int):
+    cursor.execute(f"DELETE FROM testimonials WHERE id = {testimonial_id}")
+    conn.commit()
+    return {"message": "Testimonial deleted successfully"}
+
+
+
+
+
 
 
 if __name__ == "__main__":
