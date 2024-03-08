@@ -33,12 +33,15 @@ const Services: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Services</h2>
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-2xl font-bold mb-4 border-b-2">Services</h2>
       <ul>
         {services.map(service => (
-          <li key={service.id}>
-            <strong>{service.name}</strong>: {service.description}
+          <li key={service.id} className="mb-4">
+            <div className="bg-gray-100 p-4 rounded-lg">
+              <h3 className="text-xl font-bold">{service.name}</h3>
+              <p className="mt-2">{service.description}</p>
+            </div>
           </li>
         ))}
       </ul>

@@ -34,13 +34,17 @@ const Portfolio: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Portfolio</h2>
+    <div className='container mx-auto px-4 py-8'>
+      <h2 className="text-2xl font-bold mb-4 border-b-2">Portfolio</h2>
       <ul>
-        {portfolio.map(item => (
-          <li key={item.id}>
-            <strong>{item.project_name}</strong> for {item.client_name}: {item.description}
-          </li>
+        {portfolio.map(project => (
+          <div key={project.id} className="mb-4">
+            <div className="bg-gray-100 p-4 rounded-lg">
+              <h3 className="text-xl font-bold">{project.project_name}</h3>
+              <p className="mt-2">{project.client_name}</p>
+              <p className="mt-2">{project.description}</p>
+            </div>
+          </div>
         ))}
       </ul>
     </div>

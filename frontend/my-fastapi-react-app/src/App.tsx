@@ -7,6 +7,7 @@ import Testimonial from './components/Testimonial';
 import Home from './components/Home';
 import Navbar from './components/Navbar'; // Import the Navbar component
 
+
 const App: React.FC = () => {
   return (
     <Router>
