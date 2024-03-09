@@ -19,10 +19,10 @@ const Portfolio: React.FC = () => {
         }
         const data = await response.json();
         const parsedPortfolio: Portfolio[] = data.map((item: any) => ({
-          id: item[0], // item[0] is the first column in the database table [id, project_name, client_name, description
-          project_name: item[1], // item[1] is the second column in the database table [id, project_name, client_name, description
-          client_name: item[2], // item[2] is the third column in the database table [id, project_name, client_name, description
-          description: item[3] // item[3] is the fourth column in the database table [id, project_name, client_name, description
+          id: item[0], 
+          project_name: item[1], 
+          client_name: item[2], 
+          description: item[3] 
         }));
         setPortfolio(parsedPortfolio);
       } catch (error) {

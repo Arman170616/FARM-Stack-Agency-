@@ -6,7 +6,7 @@ import Portfolio from './components/Portfolio';
 import Testimonial from './components/Testimonial';
 import Home from './components/Home';
 import Navbar from './components/Navbar'; // Import the Navbar component
-
+import Footer from './components/Footer';
 
 const App: React.FC = () => {
   return (
@@ -23,6 +23,7 @@ const App: React.FC = () => {
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/testimonials" element={<Testimonial />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
