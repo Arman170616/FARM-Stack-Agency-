@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -15,16 +17,32 @@ const Contact: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you can handle form submission, for example, sending data to a server
-    console.log(formData);
-    // Reset form after submission
-    setFormData({
-      name: '',
-      email: '',
-      message: ''
-    });
+
+    try {
+      const response = await fetch('http://localhost:8000/contacts/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        });
+        toast.success('Form submitted successfully');
+      } else {
+        console.error('Failed to submit form');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
@@ -45,6 +63,7 @@ const Contact: React.FC = () => {
         </div>
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Submit</button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

@@ -29,6 +29,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS portfolio
                   (id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, client_name TEXT, description TEXT)''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS testimonials
                   (id INTEGER PRIMARY KEY AUTOINCREMENT, client_name TEXT, testimonial TEXT)''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS contacts
+                    (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, message TEXT)''')
 
 class Service(BaseModel):
     name: str
@@ -42,6 +44,11 @@ class Portfolio(BaseModel):
 class Testimonial(BaseModel):
     client_name: str
     testimonial: str
+
+class Contact(BaseModel):
+    name: str
+    email: str
+    message: str
 
 
 @app.post("/services/")
@@ -160,7 +167,43 @@ def delete_testimonial(testimonial_id: int):
     conn.commit()
     return {"message": "Testimonial deleted successfully"}
 
+@app.post("/contacts/")
+async def create_contact(contact: Contact):
+    try:
+        conn = sqlite3.connect('agency.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)",
+                       (contact.name, contact.email, contact.message))
+        conn.commit()
+        return {"message": "Contact created successfully"}
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        conn.close()
 
+# @app.get("/contacts/")
+# def get_contacts():
+#     cursor.execute("SELECT * FROM contacts")
+#     contacts = cursor.fetchall()
+#     return contacts
+
+# @app.get("/contacts/{contact_id}/")
+# def get_contact(contact_id: int):
+#     cursor.execute(f"SELECT * FROM contacts WHERE id = {contact_id}")
+#     contact = cursor.fetchone()
+#     if contact:
+#         return contact
+#     raise HTTPException(status_code=404, detail="Contact not found")
+
+# @app.delete("/contacts/{contact_id}/")
+# def delete_contact(contact_id: int):
+#     cursor.execute(f"DELETE FROM contacts WHERE id = {contact_id}")
+#     conn.commit()
+#     return {"message": "Contact deleted successfully"}
+
+# @app.get("/")
+# def read_root():
+#     return {"message": "Welcome to FARM Stack Agency Web!"}
 
 
 
