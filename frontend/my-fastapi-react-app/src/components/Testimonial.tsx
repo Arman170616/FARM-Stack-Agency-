@@ -24,7 +24,7 @@ const Testimonial: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container mx-auto px-4 py-8 h-screen">
       <h2>Testimonials</h2>
       <ul>
         {testimonials.map(testimonial => (
