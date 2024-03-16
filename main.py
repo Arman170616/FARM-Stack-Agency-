@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from elasticsearch import Elasticsearch
 import sqlite3
 
 app = FastAPI()
@@ -17,6 +18,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Indexing data to Elasticsearch
+# es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+
+# Create index
+# index_name = "services_index"
+
 
 conn = sqlite3.connect('agency.db', check_same_thread=False)
 cursor = conn.cursor()
@@ -51,6 +59,7 @@ class Contact(BaseModel):
     message: str
 
 
+
 @app.post("/services/")
 def create_service(service: Service):
     conn = sqlite3.connect('agency.db')
@@ -66,6 +75,7 @@ def get_services():
     cursor.execute("SELECT * FROM services")
     services = cursor.fetchall()
     return services
+
 
 @app.get("/services/{service_id}/")
 def get_service(service_id: int):

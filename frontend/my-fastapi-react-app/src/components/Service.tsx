@@ -17,6 +17,8 @@ const Services: React.FC = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        console.log(data);
+        
         // Map the data to Service interface directly
         const parsedServices: Service[] = data.map((item: any) => ({
           id: item[0],
